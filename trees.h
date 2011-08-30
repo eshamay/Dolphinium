@@ -4,6 +4,10 @@
 namespace trees {
 
   class BinaryTreeNode;
+
+	class BinaryTree;
+
+
   typedef BinaryTreeNode btn_t;
   typedef int key_t; 
 
@@ -45,6 +49,8 @@ namespace trees {
 	  btn_t * Parent () const { return parent; }
 	  btn_t * Parent (btn_t * p) { parent = p; }
   };
+
+
 
   class BinaryTree {
 	protected:
