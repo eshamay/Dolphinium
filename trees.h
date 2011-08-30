@@ -1,6 +1,30 @@
 #include <cstdio>
-#include <list>
+#include <queue>
+#include <stack>
+#include <algorithm>
 
+typedef int val_t;
+
+// tree node
+typedef struct tree_t {
+	struct tree_t *parent, *left, *right;
+	val_t value;
+} tree_t;
+typedef tree_t * node;
+
+
+node new_tree ();
+node new_tree (val_t val);
+void add_node (node root, node n);
+node array_to_tree (val_t * array, int size);
+
+// print out the tree depth-first, and return the depth of the tree
+int print_tree_dfs (node root);
+// print out the tree breadth-first
+void print_tree_bfs (node root);
+
+
+/*
 namespace trees {
 
   class BinaryTreeNode;
@@ -71,3 +95,4 @@ namespace trees {
   };
 
 }
+*/
