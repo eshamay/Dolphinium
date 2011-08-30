@@ -9,42 +9,48 @@ void reverse_string (val_t * c, int size) {
 	}
 }
 
-node new_root () {
+node new_node () {
 	node n = new node_t;
 	n->value = (val_t)NULL;
 	n->next = (node)NULL;
 	n->child = (node)NULL;
+	n->parent = (node)NULL;
 	n->count = 0;
 	return n;
 }
 
 node new_node (char val) {
-	node n = new_root();
+	node n = new_node();
 	n->value = val;
 	return n;
 }
 
-void add_node (node root, char* str, int size) {
+std::pair<int,node> add_node (node root, char* str, int size) {
 
-	printf ("%c", *str);
 	// see if the first char of the string is one of the children of the root
 	node n = search_siblings (root->child, str[0]);
 
-	// if the string isn't in the children, then add it in
+	// if the string isn't in the children, then add it in as a new child of the current root level
 	if (n == (node)NULL) {
 		n = new_node(str[0]);
 		n->next = root->child;
+		n->parent = root;
 		root->child = n;
 	}
 		
+	std::pair<int,node> p;
+
 	// once we have the node, if the size == 1, then increment the count
-	if (size == 1)
+	if (size == 1) {
 		++n->count;
-	// otherwise, we find the next level down
-	else 
-		add_node (n, &str[1], size - 1);
+		p = std::make_pair(n->count, n->child);
+	}
+	// otherwise, we shove it into the next level down
+	else {
+		p = add_node (n, &str[1], size - 1);
+	}
 	
-	return;
+	return p;
 }
 
 node add_sibling (node root, node n) {
@@ -67,35 +73,36 @@ void print_list (node root) {
 }
 
 
-node dfs_search (node root) {
-
-
-}
-
 
 int main () {
 
-	int size = 15;
-	char str[20] = "caedcdebedecbed";
-	//reverse_string(str,size);
+	int size = 9;
+	char str[20] = "cbadeadecbadeadecbd";
+	reverse_string(str,size);
 
 	int i = 0, j = 0;
-	node root = new_root();
+	node root = new_node();
+	std::pair<int,node> p = std::make_pair(0,root), q;
 
 	for (int i = 0; i < size; i++) {
 		for (int j = i; j < size; j++) {
-			add_node (root, &str[i], j-i+1);
-			printf ("\n");
+			q = add_node (root, &str[i], j-i+1);
+			if (q.first > p.first) {
+				p.first = q.first;
+				p.second = q.second;
+			}
 		}
 	}
 
-	printf ("\ntest\n");
-	print_list(root->child);
-	node n = root->child;
-	while (n != (node)NULL) {
-		printf ("%c: %d\n", n->value, n->count);
-		n = n->next;
+	root = p.second;
+	printf ("\n");
+	while (root != (node)NULL) {
+		printf ("%c ", root->value);
+		root = root->parent;
 	}
+	printf ("\n");
+
+
 	fflush(stdout);
 
 	return 0;
