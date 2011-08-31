@@ -73,35 +73,47 @@ void print_list (node root) {
 }
 
 
+int find_substring_naive (char *k, int m, char *S, int n) {
+	int index = -1;
+
+	int j;
+	for (int i = 0; i < n-m+1; i++) {
+		for (int j = 0; j < m; j++) {
+			if (S[i+j] != k[j]) break;
+			if (j == m-1) index = i;
+		}
+		if (index != -1) break;
+	}
+	return index;
+}
+
+// rabin karp hash method for converting strings to decimal values
+unsigned long string_to_decimal (char *s, int n) {
+	unsigned long v;
+	if (n == 1)
+		v = (unsigned long)s[0];
+	else {
+		v = s[n-1] + 10*string_to_decimal(s,n-1);
+	}
+	return v;
+}
+
+
+int find_substring_rabin_karp (char *k, int m, char *S, int n) {
+	int index = -1;
+
+
+	return index;
+}
+
 
 int main () {
 
-	int size = 9;
-	char str[20] = "cbadeadecbadeadecbd";
-	reverse_string(str,size);
+	char S[17] = "FDEGFBFDBDA";
+	char k[3] = "BA";
+	//reverse_string(S,6);
 
-	int i = 0, j = 0;
-	node root = new_node();
-	std::pair<int,node> p = std::make_pair(0,root), q;
-
-	for (int i = 0; i < size; i++) {
-		for (int j = i; j < size; j++) {
-			q = add_node (root, &str[i], j-i+1);
-			if (q.first > p.first) {
-				p.first = q.first;
-				p.second = q.second;
-			}
-		}
-	}
-
-	root = p.second;
-	printf ("\n");
-	while (root != (node)NULL) {
-		printf ("%c ", root->value);
-		root = root->parent;
-	}
-	printf ("\n");
-
+	printf ("index = %lu\n", string_to_decimal(S,11));
 
 	fflush(stdout);
 

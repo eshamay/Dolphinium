@@ -38,3 +38,10 @@ node search_siblings (node root, val_t val);
 // add a new node into an existing tree
 std::pair<int,node> add_node (node root, node node);
 
+// find the location of a subtring, k, of size m, in a string, S, of size n. 
+// Returns the index of the start of the substring.
+// return of -1 = substring not found.
+int find_substring_naive (char *k, int m, char *S, int n);
+
+unsigned long string_to_decimal (char *s, int n);
+int find_substring_rabin_karp (char *k, int m, char *S, int n);
